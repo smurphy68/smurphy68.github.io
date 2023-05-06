@@ -1,6 +1,6 @@
-node-modules/
+*/node-modules
 *.json
-README.txt
+*/README.md
 generic.html
 elements.html
 updateform.html
