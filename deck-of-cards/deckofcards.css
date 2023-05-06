@@ -1,0 +1,46 @@
+/* grid setup for board and hand */
+.x-by-x-grid {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    max-width: 150px;
+}
+
+/* styling for card parent elements */
+.board-card {
+    margin: 5px;
+    text-align: left;
+    color:black;
+    background-color: aliceblue;
+    font-family: "calibri";
+    min-width: 80px;
+    border:1px solid black;
+    cursor: pointer;
+}
+
+.hand-card {
+    margin: 5px;
+    text-align: left;
+    color: whitesmoke;
+    background-color:darkblue;
+    font-family: "calibri";
+    min-width: 80px;
+    border:1px solid black;
+    cursor: pointer;
+}
+
+/* styling for cards sub-elements */
+.suit {
+    text-align: center;
+    font-size: 52;
+}
+
+.tl-number {
+    text-align: left;
+    padding: 3px;
+}
+
+.br-number {
+    text-align: right;
+    padding: 3px;
+
+}
