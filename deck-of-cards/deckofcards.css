@@ -1,9 +1,48 @@
 /* grid setup for board and hand */
-.x-by-x-grid {
-    display: grid;
-    grid-template-columns: repeat(13, 1fr);
-    max-width: 150px;
-}
+@media only screen and (min-width: 465px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}
+
+@media only screen and (min-width: 620px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}
+
+@media only screen and (min-width: 775px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}   
+
+@media only screen and (min-width: 930px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}  
+
+@media only screen and (min-width: 1085px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 2px;
+        max-width: 150px;
+    }}  
 
 /* styling for card parent elements */
 .board-card {
@@ -12,7 +51,8 @@
     color:black;
     background-color: aliceblue;
     font-family: "calibri";
-    min-width: 80px;
+    width: 120px;
+    max-height: 150px;
     border:1px solid black;
     cursor: pointer;
 }
@@ -23,7 +63,8 @@
     color: whitesmoke;
     background-color:darkblue;
     font-family: "calibri";
-    min-width: 80px;
+    width: 120px;
+    max-height: 150px;
     border:1px solid black;
     cursor: pointer;
 }

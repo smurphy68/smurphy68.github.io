@@ -51,7 +51,7 @@ const checkWinCon = () => {
 
 // check if all elements of the board is full and the game is a draw (i.e no other win cons)
     let truthyCheck = Array.from(board.children).map((e) => {
-        if (e.innerHTML === "x" || e.innerHTML === "o") {
+        if (e.innerHTML === "x" || e.innerText === "o") {
             return true;
         };
         return false;
@@ -101,19 +101,19 @@ const makeMove = (e) => {
             e.removeEventListener("click", makeMove);
         })
         if (winCon.toString() === "x,x,x") {
-            player.innerHTML = "Player 2, you win!"
+            player.innerText = "Player 2, you win!"
         };
         if (winCon.toString() === "o,o,o") {
-            player.innerHTML = "Player 1, you win!"
+            player.innerText = "Player 1, you win!"
         };
     };
 };
 
 const refresh = () => {
     Array.from(board.children).forEach((e) => {
-        e.innerHTML = "";
+        e.innerText = "";
         e.addEventListener("click", makeMove)
-        player.innerHTML = "Player 1, it's your turn!"
+        player.innerText = "Player 1, it's your turn!"
     })
 }
 
