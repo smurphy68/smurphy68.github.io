@@ -5,7 +5,7 @@ const HEADER = 5000;
 // Pic Server Port.
 const PORT = 5050;
 // Pico Server Address.
-const SERVER = "192.168.1.72";
+const SERVER = "########";
 
 // Containers 
 let buttons = Array.from(document.getElementsByClassName('button'));
