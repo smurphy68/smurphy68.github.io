@@ -1,6 +1,7 @@
 */node-modules
 *.json
 */README.md
+*/README.txt
 generic.html
 elements.html
 updateform.html
