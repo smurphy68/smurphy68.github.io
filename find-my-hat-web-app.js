@@ -14,7 +14,7 @@ const hat = '🎩';
 const hole = '🕳️';
 const fieldCharacter = '🌿';
 const treeCharacter = '🌳'
-const pathCharacter = '🪨';
+const pathCharacter = '👣';
 const xCharachter = '❌'
 const cowboyHat = '🤠'
 
