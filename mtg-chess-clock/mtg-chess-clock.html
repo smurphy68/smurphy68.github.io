@@ -158,23 +158,23 @@
     </div>
     <div class="player flip">
         <p>Player 4</p>
-        <div class="clock" id="player2Clock">00:00</div>
+        <div class="clock" id="player4Clock">00:00</div>
         <div class="life-counter">
             <button class="button" onclick="adjustLife(2, 1)">+</button>
-            <span id="player2Life">40</span>
+            <span id="player4Life">40</span>
             <button class="button" onclick="adjustLife(2, -1)">-</button>
         </div>
-        <button class="button" onclick="passTurn(2)">Pass Turn</button>
+        <button class="button" onclick="passTurn(4)">Pass Turn</button>
     </div>
     <div class="player">
         <p>Player 2</p>
-        <div class="clock" id="player4Clock">00:00</div>
+        <div class="clock" id="player2Clock">00:00</div>
         <div class="life-counter">
             <button class="button" onclick="adjustLife(4, 1)">+</button>
-            <span id="player4Life">40</span>
+            <span id="player2Life">40</span>
             <button class="button" onclick="adjustLife(4, -1)">-</button>
         </div>
-        <button class="button" onclick="passTurn(4)">Pass Turn</button>
+        <button class="button" onclick="passTurn(2)">Pass Turn</button>
     </div>
     <div class="player">
         <p>Player 3</p>
@@ -214,7 +214,6 @@
 
         function startClock() {
             document.getElementById('togglePlayers').disabled = true;
-            document.getElementById('togglePlayers').style.cursor = "pointer";
             clearInterval(interval);
             if (initialTimeMinutes === 0) {
                 initialTimeMinutes = parseInt(document.getElementById('initialTime').value, 10) || 0;
@@ -255,16 +254,8 @@
         function passTurn(player) {
             if (player === currentPlayer) {
                 clearInterval(interval);
-    
                 let targetPlayer;
-                if (document.getElementById('togglePlayers').checked) {
-                    // Players are flipped, so pass the turn to the player on the left (increment player number)
-                    targetPlayer = player % 4 + 1;
-                } else {
-                    // Players are not flipped, so pass the turn to the player on the left (decrement player number)
-                    targetPlayer = player === 1 ? 4 : player - 1;
-                }
-    
+                targetPlayer = player % 4 + 1;
                 currentPlayer = targetPlayer;
                 startClock();
             }
@@ -296,7 +287,6 @@
                 // Swap Player 1 and Player 2
                 player1.style.order = 2;
                 player2.style.order = 1;
-        
                 // Swap Player 3 and Player 4
                 player3.style.order = 4;
                 player4.style.order = 3;
