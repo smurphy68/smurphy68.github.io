@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>It's a Goddamn Magic Clock</title>
     <style>
+        .disable-dbl-tap-zoom {
+            touch-action: manipulation;
+          }
+
         body {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -135,7 +139,7 @@
         }
     </style>
 </head>
-<body>
+<body class="disable-dbl-tap-zoom">
     <div class="player flip">
         <p>Player 1</p>
         <div class="clock" id="player1Clock">00:00</div>
