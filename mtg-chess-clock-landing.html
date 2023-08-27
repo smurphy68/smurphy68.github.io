@@ -7,7 +7,7 @@
 <html>
 
 <head>
-	<title>Find My Hat Project</title>
+	<title>MTG Chess Clock</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
@@ -27,7 +27,6 @@
 			</nav>
 		</header>
 
-		<!-- Menu -->
 		<!-- Menu -->
 		<nav id="menu">
 			<ul class="links">
@@ -50,10 +49,10 @@
 					<img src="images/pic07.jpg" alt="" />
 				</span>
 				<header class="major">
-					<h1><a target="_blank" href="https://github.com/smurphy68/find-my-hat">Find My Hat</a></h1>
+					<h1><a target="_blank" href="https://github.com/smurphy68.github.io/mtg-chess-clock/mtg-chess-clock.html">MTG Chess Clock</a></h1>
 				</header>
 				<div class="content">
-					<p>This coding challenge was a project inspired by my Codecademy learning. This was a node.js REPL project, however I have adapted it to work on a webpage. The tech stack was:</p>
+					<p>This aim of this project was to help me and my friends play more games of Magic: The Gathering without worrying about spending hours on one game. If your time is up, you lose...</p>
 				</div>
 				<div>
 					<ul class="content">
@@ -65,9 +64,6 @@
 						</li>
 						<li>
 							<p>HTML5</p>
-						</li>
-						<li>
-							<p>Node.js</p>
 						</li>
 					</ul>
 				</div>
@@ -83,50 +79,10 @@
 						<h2>Project Break Down</h2>
 					</header>
 					<p>
-						The aim of the game is to find the hat character.
-						The user navigates through a series of randomly generated holes and field/tree characters.
-						Wherever the player has been, a path character is replaced in the console.
-						The player starts in the top left hand corner of a grid (if not taken up by the hat).
-						
+						The MTG chess clock consists of 4 timers and life totals. The turn can be passed sequentially clockwise around the table. 
+						It is intended to operate on a tablet in the middle of the table. The toggle switch allows any player to be the first in turn order. 						
 					</p>
 				</div>
-			</section>
-
-			<!-- Two
-			<section id="two" class="spotlights">
-				<section>
-					<a target="_blank" href="./find-my-hat/find-my-hat.html" class="image">
-						<img src="images/deck-of-cards-image.png" alt="" data-position="center center" />
-					</a>
-					<div class="content">
-						<div class="inner">
-							<header class="major">
-								<h3>Click the link below to see the Webpage</h3>
-							</header>
-							<ul class="actions">
-								<li><a target="_blank" href="./deck-of-cards/deckofcards.html" class="button">Shuffle Up!</a></li>
-							</ul>
-						</div>
-					</div>
-				</section>
-			</section> -->
-
-			<section id="three" class="spotlights" style="padding:15px;">
-				<section>
-					<div id="game-console" class="image::before">
-						<p id="to-be-replaced"></p>
-					</div>
-					<div class="content">
-						<div class="inner">
-							<div class="content" data-position="center center"></div>
-							<header class="major">
-								<h3>Hover over the grid with your mouse, <br> use the arrow keys to move your character! <br>
-								If no move is possible, click below to refresh the board!</h3>
-							</header>
-							<button id="new-game-button" onclick="startNewGame()" class="button">Click Here to Play!</button>
-						</div>
-					</div>
-				</section>
 			</section>
 
 			<!-- Footer -->
@@ -145,7 +101,6 @@
 					</ul>
 				</div>
 			</footer>
-
 		</div>
 
 		<!-- Scripts -->
@@ -156,9 +111,6 @@
 		<script src="assets/js/breakpoints.min.js"></script>
 		<script src="assets/js/util.js"></script>
 		<script src="assets/js/main.js"></script>
-		<script src="find-my-hat-web-app.js"></script>
-
-
 
 </body>
 
