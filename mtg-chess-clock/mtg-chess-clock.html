@@ -29,6 +29,10 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
+        .loser {
+            background-color: red;
+        }
+
         .flip {
             transform: rotate(180deg);
         }
@@ -154,7 +158,7 @@
         <div id="bottom-controls">
             <button class="button" onclick="gameSettings()">Settings</button>
             <button class="button" onclick="startClock()">Start</button>
-            <button class="button" onclick="resetClock()">Reset</button>
+            <button class="button" onclick="pauseGame()">Pause</button>
             <label class="switch-label" for="togglePlayers">Flip</label>
             <label class="switch">
                 <input type="checkbox" id="togglePlayers">
@@ -193,7 +197,7 @@
         <button class="button" onclick="passTurn(3)">Pass Turn</button>
     </div>
     <dialog style="z-index: 1000; display: center;" id="settings" hidden>
-        <input type="number" id="initialTime" placeholder="Initial Time (minutes)">
+        <input type="number" id="initialTime" placeholder="Initial Time (minutes)" value="30">
         <input type="number" id="numberOfPlayers" placeholder="Number of Players">
         <button onclick="gameSettings()">Continue</button>
     </dialog>
@@ -201,32 +205,55 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
+        let defaultLifeTotal = 40;
+        let defaultTime = 30;
         let numberOfPlayers = 4;
         let currentPlayer = 1;
-        let playerTimes = Array(numberOfPlayers).fill(0);
-        let playerElapsedTimes = Array(numberOfPlayers).fill(0);
         let interval;
         let initialTimeMinutes = 0;
-        let playerLifeTotal = Array(numberOfPlayers).fill(40);
+        let paused = false;
 
+        class Player {
+            constructor(playerKey, life, time) {
+                this.playerKey = playerKey;
+                this.life = life;
+                this.time = time;
+                this.elapsedTime = 0;
+                this.isDead = false;
+            }
+
+            setPlayerTime(timeInMinutes) {
+                this.time = timeInMinutes * 60 - this.elapsedTime;
+            }
+        }
+        
+        class PlayerArrayObj {
+            constructor(playerKey) {
+                this.playerKey = playerKey;
+                this.playerDiv = $(`.player${this.playerKey}`)[0];
+                this.playerLifeCounter = $(`#player${this.playerKey}Life`)[0]
+                this.playerObj = new Player(this.playerKey, defaultLifeTotal, defaultTime)
+            }
+        }
+        
         let playerArrayMap = {
             1: parseInt($('#player1').css('order'), 10),
             2: parseInt($('#player2').css('order'), 10),
-            3: parseInt($('#player3').css('order'), 10),
-            4: parseInt($('#player4').css('order'), 10)
+            3: parseInt($('#player4').css('order'), 10),
+            4: parseInt($('#player3').css('order'), 10)
         };
-
+        
+        let playerArray = Object.values(playerArrayMap).map(i => new PlayerArrayObj(i));
+        let remainingPlayers = playerArray;
+        
         let flippedPlayerArrayMap = {
             1: 2,
             2: 4,
             3: 3,
             4: 1
         }
-        
-        let playerArray = Object.values(playerArrayMap).map(i => $(`.player${i}`))
 
         let displayGameSettings = false;
-
         function gameSettings() {
             const settings = $('#settings');
             displayGameSettings = !displayGameSettings
@@ -235,27 +262,38 @@
                 settings.hide();
                 // Set number of players
                 numberOfPlayers = parseInt($('#numberOfPlayers').val(), 10) || 4;
-                playerArray.forEach(e => e.show())
+                remainingPlayers.forEach(e => e.playerDiv.hidden = false)
                 switch (numberOfPlayers) {
                     case 4:
                         break;
                     case 3:
                         $('.player4').hide();
+                        remainingPlayers.filter(p => p.playerKey > 3).forEach(s => s.playerObj.isDead = true);
                         break;
                     case 2:
                         $('.player3').hide();
                         $('.player4').hide();
                         $('#player1').removeClass('flip');
+                        remainingPlayers.filter(p => p.playerKey > 2).forEach(s => s.playerObj.isDead = true);
+                        break;
                     default:
                         break;
                 }
 
                 // Set Timers
-                setPlayerTime(getInitialTime() || 0)
+                remainingPlayers.forEach(p => p.playerObj.time = getInitialTime() * 60 || defaultTime);
                 updateClocks();
+
+                // Set Life
+                remainingPlayers.filter(p => p.playerObj.isDead === false)
+                .forEach(s => updateLifeCount(s.playerKey, defaultLifeTotal));
                 return;
             }
             settings.show();
+        }
+
+        function pauseGame() {
+            paused = !paused;
         }
 
         function formatTime(time) {
@@ -263,97 +301,102 @@
             const seconds = time % 60;
             return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
-
+        
         function updateClocks() {
-            for (let i = 1; i <= numberOfPlayers; i++) {
-                document.getElementById(`player${i}Clock`).textContent = formatTime(playerTimes[i - 1]);
-            }
+            remainingPlayers.forEach(p => {
+                _newText = formatTime(p.playerObj.time);
+                document.getElementById(`player${p.playerKey}Clock`).textContent = _newText
+            });
         }
 
-        function updateLifeCount(player) {
-            document.getElementById(`player${player}Life`).textContent = playerLifeTotal[player - 1];
+        function updateLifeCount(pl, _newLife=null) {
+            player = remainingPlayers.filter(p => p.playerKey == pl)[0];
+            if (player.playerObj.isDead) {
+                player.playerLifeCounter.textContent = "X";
+                return
+            }
+            if (_newLife != null) {
+                player.playerLifeCounter.textContent = _newLife;
+                return;
+            }
+            player.playerLifeCounter.textContent = player.playerObj.life;
         }
 
         function getInitialTime() {
             if (initialTimeMinutes === 0) {
                 return parseInt($('#initialTime').val(), 10);
             }
-        }
-
-        function setPlayerTime(initialTimeMinutes) {
-            for (let i = 0; i < playerTimes.length; i++) {
-                playerTimes[i] = initialTimeMinutes * 60 - playerElapsedTimes[i];
-            }
+            return null;
         }
 
         function startClock() {
             document.getElementById('togglePlayers').disabled = true;
             clearInterval(interval);
             interval = setInterval(() => {
-                playerTimes[currentPlayer - 1]--;
-                playerElapsedTimes[currentPlayer - 1]++;
-                if (playerTimes[currentPlayer - 1] < 0) {
-                    clearInterval(interval);
-                    alert(`Player ${currentPlayer} has run out of time!`);
+                player = remainingPlayers.filter(p => p.playerKey === currentPlayer)[0]
+                if (!paused) {
+                    player.playerObj.time--;
+                    player.playerObj.elapsedTime++;
+                }
+                if (player.playerObj.time < 0) {
+                    player.playerObj.isDead = true;
+                    player.playerDiv.classList.add('loser');
+                    passTurn(player.playerKey);
+
                 }
                 updateClocks();
             }, 1000);
         }
 
-        function resetClock() {
-            numberOfPlayers = 4;
-            clearInterval(interval);
-            playerArray.forEach(p => p.show())
-            document.getElementById('togglePlayers').disabled = false;
-            playerTimes = Array(numberOfPlayers).fill(0);
-            playerElapsedTimes = Array(numberOfPlayers).fill(0);
-            playerLifeTotal = Array(numberOfPlayers).fill(40);
-
-            currentPlayer = 1;
-            document.getElementById('initialTime').value = '';
-            initialTimeMinutes = 0;
-
-            updateClocks();
-
-            playerLifeTotal = Array(numberOfPlayers).fill(40);
-
-            for (let i=1; i<numberOfPlayers; i++)
-            {
-                updateLifeCount(i)
-            };
-        }
-
         function passTurn(player) {
-            if (player === currentPlayer) {
-                clearInterval(interval);
-                let targetPlayer;
-                targetPlayer = player % numberOfPlayers + 1;
-                currentPlayer = targetPlayer;
-                startClock();
+            if (player != currentPlayer) {
+                return;
+            }
+            if(remainingPlayers.filter(p => p.playerObj.isDead == false).length == 0)
+            {
+                clearInterval(interval)
+                location.reload()
+                alert("Y'all are dead. Click below to play again!")
+                return;
+            }
+
+            clearInterval();
+            let highestKeyValue = remainingPlayers
+            .filter(p => p.playerObj.isDead == false)
+            .sort((a, b) => b.playerKey - a.playerKey)[0].playerKey;
+            if (player == highestKeyValue) {
+                currentPlayer = remainingPlayers
+                .filter(p => p.playerObj.isDead == false)
+                .sort((a, b) => a.playerKey - b.playerKey)[0]
+                .playerKey
+            } else {
+                currentPlayer = remainingPlayers
+                .filter(p => p.playerObj.isDead == false)
+                .filter(p => p.playerKey > player)
+                .sort((a, b) => a.playerKey - b.playerKey)[0]
+                .playerKey
             }
         }
 
-        function adjustLife(player, delta) {
-            playerLifeTotal[player - 1] += delta;
-            if (playerLifeTotal[player - 1] < 0) {
-                playerLifeTotal[player - 1] = 0;
+        function adjustLife(pl, delta) {
+            player = remainingPlayers.filter(p => p.playerKey == pl)[0];
+            player.playerObj.life += delta
+            if (player.playerObj.life <= 0) {
+                player.playerObj.isDead = true;
+                numberOfPlayers -= 1;
+                player.playerDiv.classList.add('loser');
             }
-            updateLifeCount(player);
+
+            updateLifeCount(player.playerKey);
         }
 
-        updateClocks();
-
-        for (let i=1; i<numberOfPlayers; i++)
-        {
-            updateLifeCount(i)
-        };
 
         document.getElementById('togglePlayers').addEventListener('change', function () {
             $('.player').each((index, e) => {$(e).removeClass('flip')})
             if (this.checked) {
                 switch(numberOfPlayers) {
                     case 4:
-                        for (let i = 1; i <= playerArray.length; i++) {
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
                             $(`#player${i}`).css({'order': flippedPlayerArrayMap[i]})
                             $('#player1').addClass('flip');
                             $('#player4').addClass('flip');
@@ -366,7 +409,7 @@
                         $('#player2').addClass('flip');
                         break;
                     default:
-                        for (let i = 1; i <= playerArray.length; i++) {
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
                             $(`#player${i}`).css({'order': playerArrayMap[i]})
                             $('#player1').addClass('flip');
                             $('#player2').addClass('flip');
@@ -375,12 +418,12 @@
                     }
                 } else {
                     if (numberOfPlayers == 2) {
-                        for (let i = 1; i <= playerArray.length; i++) {
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
                             $(`#player${i}`).css({'order': playerArrayMap[i]})
                             $('#player1').addClass('flip');
                         }
                     } else {
-                        for (let i = 1; i <= playerArray.length; i++) {
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
                             $(`#player${i}`).css({'order': playerArrayMap[i]})
                             $('#player1').addClass('flip');
                             $('#player2').addClass('flip');
