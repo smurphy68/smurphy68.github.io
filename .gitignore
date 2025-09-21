@@ -1,5 +1,6 @@
 */node-modules
 *.json
+/old-projects
 README.md
 README.txt
 generic.html
