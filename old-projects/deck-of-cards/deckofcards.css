@@ -1,0 +1,87 @@
+/* grid setup for board and hand */
+@media only screen and (min-width: 465px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}
+
+@media only screen and (min-width: 620px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}
+
+@media only screen and (min-width: 775px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}   
+
+@media only screen and (min-width: 930px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 5px;
+        max-width: 150px;
+    }}  
+
+@media only screen and (min-width: 1085px){
+    .x-by-x-grid {
+        display: grid;
+        grid-template-columns: 150px 150px 150px 150px 150px 150px 150px;
+        grid-row-gap: 5px;
+        grid-column-gap: 2px;
+        max-width: 150px;
+    }}  
+
+/* styling for card parent elements */
+.board-card {
+    margin: 5px;
+    text-align: left;
+    color:black;
+    background-color: aliceblue;
+    font-family: "calibri";
+    width: 120px;
+    max-height: 150px;
+    border:1px solid black;
+    cursor: pointer;
+}
+
+.hand-card {
+    margin: 5px;
+    text-align: left;
+    color: whitesmoke;
+    background-color:darkblue;
+    font-family: "calibri";
+    width: 120px;
+    max-height: 150px;
+    border:1px solid black;
+    cursor: pointer;
+}
+
+/* styling for cards sub-elements */
+.suit {
+    text-align: center;
+    font-size: 52;
+}
+
+.tl-number {
+    text-align: left;
+    padding: 3px;
+}
+
+.br-number {
+    text-align: right;
+    padding: 3px;
+
+}

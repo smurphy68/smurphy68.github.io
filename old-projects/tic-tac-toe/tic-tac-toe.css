@@ -1,0 +1,31 @@
+.three-by-three {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 600px;
+    text-align: center;
+    font-size: 110pt;
+    font-family: calibri;
+    margin:auto;
+    vertical-align: middle;
+
+}
+
+.grid-square {
+    background-color: rgb(148, 148, 222);
+    min-width:50px;
+    min-height:50px;
+    width: 200px;
+    height: 200px;
+    border:1px solid black;
+}
+
+/* could both be simplified to a class */
+#player-turn {
+    margin: left 40px;
+    text-align: center;
+}
+
+#button-wrapper {
+    margin:  40px;
+    text-align: center;
+}

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It's a Goddamn Magic Clock</title>
+    <style>
+        .disable-dbl-tap-zoom {
+            touch-action: manipulation;
+          }
+
+        body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-gap: 10px;
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .player {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #000;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .loser {
+            background-color: red;
+        }
+
+        .flip {
+            transform: rotate(180deg);
+        }
+
+        .clock {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .bottom-controls {
+            grid-column: span 2;
+            text-align: center;
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+        }
+
+        .life-counter {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        /* Toggle switch styles */
+        .switch-label {
+            font-size: 1rem;
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #fff;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .player {
+                padding: 15px;
+            }
+
+            .clock {
+                font-size: 1.5rem;
+            }
+
+            .button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="disable-dbl-tap-zoom" id="page">
+    
+    <div class="player flip player1" id="player1" style="order:1;">
+        <p>Player 1</p>
+        <div class="clock" id="player1Clock">00:00</div>
+        <div class="life-counter">
+            <button class="button" onclick="adjustLife(1, 1)">+</button>
+            <span id="player1Life">40</span>
+            <button class="button" onclick="adjustLife(1, -1)">-</button>
+        </div>
+        <button class="button" onclick="passTurn(1)">Pass Turn</button>
+        <div id="bottom-controls">
+            <button class="button" onclick="gameSettings()">Settings</button>
+            <button class="button" onclick="startClock()">Start</button>
+            <button class="button" onclick="pauseGame()">Pause</button>
+            <label class="switch-label" for="togglePlayers">Flip</label>
+            <label class="switch">
+                <input type="checkbox" id="togglePlayers">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </div>
+    <div class="player flip player2" id="player2" style="order:2;">
+        <p>Player 2</p>
+        <div class="clock" id="player2Clock">00:00</div>
+        <div class="life-counter">
+            <button class="button" onclick="adjustLife(2, 1)">+</button>
+            <span id="player2Life">40</span>
+            <button class="button" onclick="adjustLife(2, -1)">-</button>
+        </div>
+        <button class="button" onclick="passTurn(2)">Pass Turn</button>
+    </div>
+    <div class="player player4" id="player4" style="order:3;">
+        <p>Player 4</p>
+        <div class="clock" id="player4Clock">00:00</div>
+        <div class="life-counter">
+            <button class="button" onclick="adjustLife(4, 1)">+</button>
+            <span id="player4Life">40</span>
+            <button class="button" onclick="adjustLife(4, -1)">-</button>
+        </div>
+        <button class="button" onclick="passTurn(4)">Pass Turn</button>
+    </div>
+    <div class="player player3" id="player3" style="order:4;">
+        <p>Player 3</p>
+        <div class="clock" id="player3Clock">00:00</div>
+        <div class="life-counter">
+            <button class="button" onclick="adjustLife(3, 1)">+</button>
+            <span id="player3Life">40</span>
+            <button class="button" onclick="adjustLife(3, -1)">-</button>
+        </div>
+        <button class="button" onclick="passTurn(3)">Pass Turn</button>
+    </div>
+    <dialog style="z-index: 1000; display: center;" id="settings" hidden>
+        <input type="number" id="initialTime" placeholder="Initial Time (minutes)" value="30">
+        <input type="number" id="numberOfPlayers" placeholder="Number of Players">
+        <button onclick="gameSettings()">Continue</button>
+    </dialog>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        let defaultLifeTotal = 40;
+        let defaultTime = 30;
+        let numberOfPlayers = 4;
+        let currentPlayer = 1;
+        let interval;
+        let initialTimeMinutes = 0;
+        let paused = false;
+
+        class Player {
+            constructor(playerKey, life, time) {
+                this.playerKey = playerKey;
+                this.life = life;
+                this.time = time;
+                this.elapsedTime = 0;
+                this.isDead = false;
+            }
+
+            setPlayerTime(timeInMinutes) {
+                this.time = timeInMinutes * 60 - this.elapsedTime;
+            }
+        }
+        
+        class PlayerArrayObj {
+            constructor(playerKey) {
+                this.playerKey = playerKey;
+                this.playerDiv = $(`.player${this.playerKey}`)[0];
+                this.playerLifeCounter = $(`#player${this.playerKey}Life`)[0]
+                this.playerObj = new Player(this.playerKey, defaultLifeTotal, defaultTime)
+            }
+        }
+        
+        let playerArrayMap = {
+            1: parseInt($('#player1').css('order'), 10),
+            2: parseInt($('#player2').css('order'), 10),
+            3: parseInt($('#player4').css('order'), 10),
+            4: parseInt($('#player3').css('order'), 10)
+        };
+        
+        let playerArray = Object.values(playerArrayMap).map(i => new PlayerArrayObj(i));
+        let remainingPlayers = playerArray;
+        
+        let flippedPlayerArrayMap = {
+            1: 2,
+            2: 4,
+            3: 3,
+            4: 1
+        }
+
+        let displayGameSettings = false;
+        function gameSettings() {
+            const settings = $('#settings');
+            displayGameSettings = !displayGameSettings
+            if(!displayGameSettings)
+            {
+                settings.hide();
+                // Set number of players
+                numberOfPlayers = parseInt($('#numberOfPlayers').val(), 10) || 4;
+                remainingPlayers.forEach(e => e.playerDiv.hidden = false)
+                switch (numberOfPlayers) {
+                    case 4:
+                        break;
+                    case 3:
+                        $('.player4').hide();
+                        remainingPlayers.filter(p => p.playerKey > 3).forEach(s => s.playerObj.isDead = true);
+                        break;
+                    case 2:
+                        $('.player3').hide();
+                        $('.player4').hide();
+                        $('#player1').removeClass('flip');
+                        remainingPlayers.filter(p => p.playerKey > 2).forEach(s => s.playerObj.isDead = true);
+                        break;
+                    default:
+                        break;
+                }
+
+                // Set Timers
+                remainingPlayers.forEach(p => p.playerObj.time = getInitialTime() * 60 || defaultTime);
+                updateClocks();
+
+                // Set Life
+                remainingPlayers.filter(p => p.playerObj.isDead === false)
+                .forEach(s => updateLifeCount(s.playerKey, defaultLifeTotal));
+                return;
+            }
+            settings.show();
+        }
+
+        function pauseGame() {
+            paused = !paused;
+        }
+
+        function formatTime(time) {
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+        
+        function updateClocks() {
+            remainingPlayers.forEach(p => {
+                _newText = formatTime(p.playerObj.time);
+                document.getElementById(`player${p.playerKey}Clock`).textContent = _newText
+            });
+        }
+
+        function updateLifeCount(pl, _newLife=null) {
+            player = remainingPlayers.filter(p => p.playerKey == pl)[0];
+            if (player.playerObj.isDead) {
+                player.playerLifeCounter.textContent = "X";
+                return
+            }
+            if (_newLife != null) {
+                player.playerLifeCounter.textContent = _newLife;
+                return;
+            }
+            player.playerLifeCounter.textContent = player.playerObj.life;
+        }
+
+        function getInitialTime() {
+            if (initialTimeMinutes === 0) {
+                return parseInt($('#initialTime').val(), 10);
+            }
+            return null;
+        }
+
+        function startClock() {
+            document.getElementById('togglePlayers').disabled = true;
+            clearInterval(interval);
+            interval = setInterval(() => {
+                player = remainingPlayers.filter(p => p.playerKey === currentPlayer)[0]
+                if (!paused) {
+                    player.playerObj.time--;
+                    player.playerObj.elapsedTime++;
+                }
+                if (player.playerObj.time < 0) {
+                    player.playerObj.isDead = true;
+                    player.playerDiv.classList.add('loser');
+                    passTurn(player.playerKey);
+
+                }
+                updateClocks();
+            }, 1000);
+        }
+
+        function passTurn(player) {
+            if (player != currentPlayer) {
+                return;
+            }
+            if(remainingPlayers.filter(p => p.playerObj.isDead == false).length == 0)
+            {
+                clearInterval(interval)
+                location.reload()
+                alert("Y'all are dead. Click below to play again!")
+                return;
+            }
+
+            clearInterval();
+            let highestKeyValue = remainingPlayers
+            .filter(p => p.playerObj.isDead == false)
+            .sort((a, b) => b.playerKey - a.playerKey)[0].playerKey;
+            if (player == highestKeyValue) {
+                currentPlayer = remainingPlayers
+                .filter(p => p.playerObj.isDead == false)
+                .sort((a, b) => a.playerKey - b.playerKey)[0]
+                .playerKey
+            } else {
+                currentPlayer = remainingPlayers
+                .filter(p => p.playerObj.isDead == false)
+                .filter(p => p.playerKey > player)
+                .sort((a, b) => a.playerKey - b.playerKey)[0]
+                .playerKey
+            }
+        }
+
+        function adjustLife(pl, delta) {
+            player = remainingPlayers.filter(p => p.playerKey == pl)[0];
+            player.playerObj.life += delta
+            if (player.playerObj.life <= 0) {
+                player.playerObj.isDead = true;
+                numberOfPlayers -= 1;
+                player.playerDiv.classList.add('loser');
+            }
+
+            updateLifeCount(player.playerKey);
+        }
+
+
+        document.getElementById('togglePlayers').addEventListener('change', function () {
+            $('.player').each((index, e) => {$(e).removeClass('flip')})
+            if (this.checked) {
+                switch(numberOfPlayers) {
+                    case 4:
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
+                            $(`#player${i}`).css({'order': flippedPlayerArrayMap[i]})
+                            $('#player1').addClass('flip');
+                            $('#player4').addClass('flip');
+                        }
+                        break;
+                    case 3:
+                        $('#player1').css({'order': 2})
+                        $('#player2').css({'order': 1})
+                        $('#player1').addClass('flip');
+                        $('#player2').addClass('flip');
+                        break;
+                    default:
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
+                            $(`#player${i}`).css({'order': playerArrayMap[i]})
+                            $('#player1').addClass('flip');
+                            $('#player2').addClass('flip');
+                        }
+                        break;
+                    }
+                } else {
+                    if (numberOfPlayers == 2) {
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
+                            $(`#player${i}`).css({'order': playerArrayMap[i]})
+                            $('#player1').addClass('flip');
+                        }
+                    } else {
+                        for (let i = 1; i <= remainingPlayers.length; i++) {
+                            $(`#player${i}`).css({'order': playerArrayMap[i]})
+                            $('#player1').addClass('flip');
+                            $('#player2').addClass('flip');
+                        }
+                    }
+                }
+            });
+    </script>
+</body>
+</html>
