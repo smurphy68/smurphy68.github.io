@@ -6,25 +6,16 @@ import (
 	"log"
 
 	"github.com/segmentio/kafka-go"
+	"github.com/smurphy68/user_api/consts"
 	"github.com/smurphy68/user_api/models"
 )
 
-var messageWriter *kafka.Writer
-
-// Initialise KafkaWriter
-func Writer(brokers []string, topic string) {
-	var writerConfig = kafka.WriterConfig{
-		Brokers: brokers,
-		Topic:   topic,
-	}
-	messageWriter = kafka.NewWriter(writerConfig)
-}
+var messageWriter = Writer([]string{consts.KAFKAPORT}, consts.USERSTOPIC)
 
 func PublishUser(user models.User) error {
 	json, e := json.Marshal(user)
 	if e != nil {
-		// TODO: wrap whole logic chain to remove
-		HandleError(e)
+		return HandleError(e)
 	}
 
 	message := kafka.Message{
@@ -35,18 +26,23 @@ func PublishUser(user models.User) error {
 
 	e = messageWriter.WriteMessages(_context, message)
 	if e != nil {
-		HandleError(e)
+		return HandleError(e)
 	}
 	// TODO: log something if error or success
 	return nil
 }
 
 func HandleError(e error) error {
-	log.Println("Ain't working bub:", e)
+	// TODO: make this not a meme
+	log.Println("Ain't working bub:", e) // 🐺
 	return e
 }
 
 func ValidateUser(user models.User) bool {
-	// TODO implement service level validation
-	return true
+	if user.Id > 0 && user.Name != "" {
+		return true
+	}
+
+	// AddMoar
+	return false
 }
