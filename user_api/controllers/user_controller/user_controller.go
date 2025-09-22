@@ -11,6 +11,7 @@ import (
 func PublishUser(c *gin.Context) {
 	var user models.User
 
+	// TODO: make error handling reflect new const errors
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
@@ -21,7 +22,7 @@ func PublishUser(c *gin.Context) {
 		return
 	}
 
-	if err := services.PublishUser(user); err != nil {
+	if e := services.PublishUser(user); e != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to publish user"})
 		return
 	}
