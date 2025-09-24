@@ -9,4 +9,6 @@ updateform.html
 branches-and-commit-messages.md
 *launch.json
 notes-ignore.md
+.env
 */consts/*
+*/secrets/*

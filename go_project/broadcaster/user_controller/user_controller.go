@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/smurphy68/user_api/models"
-	"github.com/smurphy68/user_api/services"
+	"github.com/smurphy68/go_project/shared/models"
+	"github.com/smurphy68/go_project/broadcaster/services"
 )
 
 func PublishUser(c *gin.Context) {

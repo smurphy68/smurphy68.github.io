@@ -5,7 +5,7 @@ services:
     ports:
       - "2181:2181"
 
-  kafka:
+  kafka-broadcast:
     image: wurstmeister/kafka
     ports:
       - "9092:9092"
@@ -19,6 +19,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER} 
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+    - ./user_api/users/init_user.sql:/docker-entrypoint-initdb.d/init_user.sql
 
   api:
     build: .

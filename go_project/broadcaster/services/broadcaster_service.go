@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/segmentio/kafka-go"
+	errorService "github.com/smurphy68/go_project/shared/shared_services"
 )
 
 func Writer(brokers []string, topic string) *kafka.Writer {
@@ -41,7 +42,7 @@ func TryStartTopic(broker, topic string) {
 
 func checkError(e error) bool {
 	if e != nil {
-		HandleError(e)
+		errorService.HandleError(e)
 		return true
 	}
 	return false

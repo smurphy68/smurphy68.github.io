@@ -3,11 +3,11 @@ package services
 import (
 	"context"
 	"encoding/json"
-	"log"
 
 	"github.com/segmentio/kafka-go"
-	"github.com/smurphy68/user_api/consts"
-	"github.com/smurphy68/user_api/models"
+	"github.com/smurphy68/go_project/shared/consts"
+	"github.com/smurphy68/go_project/shared/models"
+	errorService "github.com/smurphy68/go_project/shared/shared_services"
 )
 
 var messageWriter = Writer([]string{consts.KAFKAPORT}, consts.USERSTOPIC)
@@ -15,7 +15,7 @@ var messageWriter = Writer([]string{consts.KAFKAPORT}, consts.USERSTOPIC)
 func PublishUser(user models.User) error {
 	json, e := json.Marshal(user)
 	if e != nil {
-		return HandleError(e)
+		return errorService.HandleError(e)
 	}
 
 	message := kafka.Message{
@@ -26,16 +26,10 @@ func PublishUser(user models.User) error {
 
 	e = messageWriter.WriteMessages(_context, message)
 	if e != nil {
-		return HandleError(e)
+		return errorService.HandleError(e)
 	}
 	// TODO: log something if error or success
 	return nil
-}
-
-func HandleError(e error) error {
-	// TODO: make this not a meme
-	log.Println("Ain't working bub:", e) // 🐺
-	return e
 }
 
 func ValidateUser(user models.User) bool {
