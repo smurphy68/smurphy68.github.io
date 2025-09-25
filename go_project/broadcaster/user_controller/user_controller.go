@@ -4,20 +4,21 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/smurphy68/go_project/shared/models"
 	"github.com/smurphy68/go_project/broadcaster/services"
+	"github.com/smurphy68/go_project/shared/models"
 )
 
 func PublishUser(c *gin.Context) {
 	var user models.User
 
 	// TODO: make error handling reflect new const errors
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if e := c.ShouldBindJSON(&user); e != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
 
-	if !services.ValidateUser(user) {
+	e := services.ValidateUser(user)
+	if e != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "User validation failed"})
 		return
 	}

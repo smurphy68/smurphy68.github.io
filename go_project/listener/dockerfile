@@ -1,0 +1,18 @@
+FROM golang:1.21 AS builder
+
+WORKDIR /app
+
+COPY ../go.mod ../go.sum ./
+RUN go mod tidy
+RUN go mod download
+
+COPY . .
+# COPY listener/ ./listener
+# COPY shared/ ./shared
+
+RUN go build -o listener ./listener/main.go
+
+FROM gcr.io/distroless/base-debian12
+WORKDIR /app
+COPY --from=builder /app/listener .
+CMD ["./listener"]

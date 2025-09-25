@@ -11,3 +11,6 @@ const USERROUTE = "/users"
 
 // Topics
 const USERSTOPIC = "users"
+
+// Errors
+const UserValidationError = "the user object was not valid"

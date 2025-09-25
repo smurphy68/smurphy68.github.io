@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"context"
 	"encoding/json"
 
@@ -32,11 +33,11 @@ func PublishUser(user models.User) error {
 	return nil
 }
 
-func ValidateUser(user models.User) bool {
+func ValidateUser(user models.User) error {
 	if user.Id > 0 && user.Name != "" {
-		return true
+		return nil
 	}
 
 	// AddMoar
-	return false
+	return errors.New(consts.UserValidationError)
 }

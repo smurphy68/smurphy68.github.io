@@ -30,3 +30,5 @@ func InitialiseDatabase() {
 	Db.AutoMigrate(&models.User{})
 	errorService.HandleError(nil)
 }
+
+

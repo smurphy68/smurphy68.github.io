@@ -19,11 +19,37 @@ services:
       POSTGRES_USER: ${POSTGRES_USER} 
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./users/init_user.sql:/docker-entrypoint-initdb.d/init_user.sql
+    networks:
+      - db-net
 
   api:
-    build: .
+    build:
+      context: ./broadcaster
+      dockerfile: dockerfile
     ports:
       - "8080:8080"
     depends_on:
       - kafka
       - postgres
+    networks:
+      - db-net
+      - broker-net
+
+  listener:
+    build:
+      context: ./listener
+      dockerfile: dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - kafka
+      - postgres
+    networks:
+      - db-net
+      - broker-net
+
+networks:
+  broker-net:
+  db-net:

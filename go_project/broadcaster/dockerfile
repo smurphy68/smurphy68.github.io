@@ -1,0 +1,18 @@
+FROM golang:1.21 AS builder
+WORKDIR /app
+
+# Copy go.mod and go.sum from project root
+COPY go.mod go.sum ./
+RUN go mod tidy
+RUN go mod download
+
+# Copy the entire project (so shared packages are available)
+COPY . .
+
+# Build the broadcaster binary
+RUN go build -o broadcaster ./broadcaster/main.go
+
+FROM gcr.io/distroless/base-debian12
+WORKDIR /app
+COPY --from=builder /app/broadcaster ./
+CMD ["./broadcaster"]
