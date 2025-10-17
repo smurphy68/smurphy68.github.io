@@ -26,8 +26,8 @@ services:
 
   api:
     build:
-      context: ./broadcaster
-      dockerfile: dockerfile
+      context: .
+      dockerfile: broadcaster/dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -39,8 +39,8 @@ services:
 
   listener:
     build:
-      context: ./listener
-      dockerfile: dockerfile
+      context: .
+      dockerfile: listener/dockerfile
     ports:
       - "8081:8080"
     depends_on:
