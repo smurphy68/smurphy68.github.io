@@ -9,10 +9,8 @@ import (
 )
 
 func main() {
-	// This should have no knowledge of the DB
 	r := gin.Default()
 	routes.RegisterRoutes(r)
 	services.TryStartTopic(consts.KAFKAPORT, consts.USERSTOPIC)
-
 	r.Run(":8080")
 }

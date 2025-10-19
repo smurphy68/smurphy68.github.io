@@ -16,7 +16,7 @@ var messageWriter = Writer([]string{consts.KAFKAPORT}, consts.USERSTOPIC)
 func PublishUser(user models.User) error {
 	json, e := json.Marshal(user)
 	if e != nil {
-		return errorService.HandleError(e)
+		return errorService.HandleError(e, "INFO")
 	}
 
 	message := kafka.Message{
@@ -27,7 +27,7 @@ func PublishUser(user models.User) error {
 
 	e = messageWriter.WriteMessages(_context, message)
 	if e != nil {
-		return errorService.HandleError(e)
+		return errorService.HandleError(e, "INFO")
 	}
 	// TODO: log something if error or success
 	return nil

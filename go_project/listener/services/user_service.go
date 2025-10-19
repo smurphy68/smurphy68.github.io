@@ -8,10 +8,12 @@ import (
 	errorService "github.com/smurphy68/go_project/shared/shared_services"
 )
 
-func SaveUser(user models.User) error {
+var messageReader = Reader()
 
+func SaveUser(user models.User) error {
 	return errorService.HandleError(
 		Db.Create(&user).Error,
+		"INFO",
 	)
 }
 

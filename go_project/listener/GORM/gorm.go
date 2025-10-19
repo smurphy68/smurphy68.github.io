@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func connectToDB() (*gorm.DB, error) {
+func ConnectToDB() (*gorm.DB, error) {
 	connectionString := fmt.Sprintf(
 		"host=postgres user=%s password=%s dbname=%s port=5432 sslmode=disable",
 		os.Getenv("POSTGRES_USER"),
@@ -20,7 +20,7 @@ func connectToDB() (*gorm.DB, error) {
 
 	conn, e := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 	if e != nil {
-		errorService.HandleError(e)
+		errorService.HandleError(e, "INFO")
 		return nil, e
 	}
 

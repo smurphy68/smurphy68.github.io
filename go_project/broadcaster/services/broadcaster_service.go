@@ -1,7 +1,9 @@
 package services
 
 import (
-	"strconv"
+	"fmt"
+	"log"
+	"time"
 
 	"github.com/segmentio/kafka-go"
 	errorService "github.com/smurphy68/go_project/shared/shared_services"
@@ -16,34 +18,45 @@ func Writer(brokers []string, topic string) *kafka.Writer {
 }
 
 func TryStartTopic(broker, topic string) {
-	conn, e := kafka.Dial("tcp", broker)
-	checkError(e)
+	var conn *kafka.Conn
+	var e error
 
-	controller, e := conn.Controller()
-	checkError(e)
+	// TODO: Is this bad?
+	for {
+		conn, e = kafka.Dial("tcp", broker)
+		if e != nil {
+			errorService.HandleError(e, "INFO")
+			time.Sleep(time.Second * 5)
+			continue
+		} else {
+			defer conn.Close()
+			controller, e := conn.Controller()
+			if e != nil {
+				errorService.HandleError(e, "INFO")
+				return
+			}
+			controllerAddr := fmt.Sprintf("%s:%d", controller.Host, controller.Port)
+			controllerConn, e := kafka.Dial("tcp", controllerAddr)
+			if e != nil {
+				errorService.HandleError(e, "INFO")
+				return
+			}
+			defer controllerConn.Close()
 
-	var controllerConn *kafka.Conn
-	controllerConn, e = kafka.Dial("tcp", controller.Host+":"+strconv.Itoa(controller.Port))
-	checkError(e)
+			topicConfigs := []kafka.TopicConfig{
+				{
+					Topic:             topic,
+					NumPartitions:     1,
+					ReplicationFactor: 1,
+				},
+			}
 
-	topicConfigs := []kafka.TopicConfig{
-		{
-			Topic:             topic,
-			NumPartitions:     1,
-			ReplicationFactor: 1,
-		},
+			if err := controllerConn.CreateTopics(topicConfigs...); err != nil {
+				log.Fatalf("Failed to create Kafka topic: %v", err)
+			}
+
+			log.Printf("✅ Topic '%s' created or already exists", topic)
+			break
+		}
 	}
-
-	e = controllerConn.CreateTopics(topicConfigs...)
-	checkError(e)
-
-	defer conn.Close()
-}
-
-func checkError(e error) bool {
-	if e != nil {
-		errorService.HandleError(e)
-		return true
-	}
-	return false
 }
