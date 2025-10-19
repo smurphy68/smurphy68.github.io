@@ -8,29 +8,40 @@ import (
 	"github.com/segmentio/kafka-go"
 	consts "github.com/smurphy68/go_project/shared/consts"
 	"github.com/smurphy68/go_project/shared/models"
-	errorService "github.com/smurphy68/go_project/shared/shared_services"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var Db *gorm.DB
 
-func InitialiseDatabase() {
+func InitialiseDatabase() error {
+	var e error
+
+	user := os.Getenv("POSTGRES_USER")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbname := os.Getenv("POSTGRES_DB")
+	host := "postgres"
+
 	connectionString := fmt.Sprintf(
-		"host=postgres user=%s password=%s dbname=%s port=5432 sslmode=disable",
-		os.Getenv("POSTGRES_USER"),
-		os.Getenv("POSTGRES_PASSWORD"),
-		os.Getenv("POSTGRES_DB"),
+		"host=%s user=%s password=%s database=%s port=5432 sslmode=disable",
+		host, user, password, dbname,
 	)
 
-	var e error
-	Db, e = gorm.Open(postgres.Open(connectionString), &gorm.Config{})
+	db, e := gorm.Open(postgres.Open(connectionString), &gorm.Config{})
 	if e != nil {
-		log.Fatal("failed to connect database:", e)
-		errorService.HandleError(e, "FATAL")
+		log.Println(connectionString)
+		return e
 	}
 
-	Db.AutoMigrate(&models.User{})
+	Db = db
+	log.Println("Database connection established")
+
+	e = Db.AutoMigrate(&models.User{})
+	if e != nil {
+		return e
+	}
+	log.Println("Migration successful")
+	return nil
 }
 
 func Reader() *kafka.Reader {

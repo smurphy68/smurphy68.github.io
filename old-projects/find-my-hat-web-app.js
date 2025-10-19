@@ -18,10 +18,6 @@ const pathCharacter = '👣';
 const xCharachter = '❌'
 const cowboyHat = '🤠'
 
-// const inputWidth = Number(process.argv[2]);
-// const inputHeight = Number(process.argv[3]);
-// const inputDifficulty = Number(process.argv[4]);
-
 class Field {
     constructor(width = 19, height = 15, percentage = 0.65) {
         this.array = [];
