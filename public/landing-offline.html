@@ -7,6 +7,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-100">
+  <div id="navbar"></div>
+  <script>
+    fetch('./components/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
   <div class="text-center max-w-md">
     <h1 class="text-4xl font-bold text-gray-800 mb-4">🚧 We're down for maintenance</h1>
     <p class="text-lg text-gray-600 mb-6">

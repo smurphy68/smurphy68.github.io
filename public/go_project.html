@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>go_project Landing Page</title>
+  <link rel="stylesheet" href="./portfolio-styles.css">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div id="navbar"></div>
+  <script>
+    fetch('./components/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
+  <div class="h-8"></div>
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+    <h1 class="text-4xl font-bold mb-4 text-indigo-700">go_project</h1>
+    <p class="mb-6 text-lg text-gray-700">
+      An application created to learn basic Go, demonstrating event-driven architecture, microservices, and integration with Kafka and PostgreSQL.
+    </p>
+
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Learning Outcomes</h2>
+    <ol class="list-decimal ml-6 mb-6 text-gray-800">
+      <li><strong>Microservices in Go:</strong> Built separate broadcaster and listener services using idiomatic Go.</li>
+      <li><strong>RESTful API Design:</strong> Used Gin to expose HTTP endpoints for publishing user data.</li>
+      <li><strong>Event Streaming:</strong> Integrated Kafka for asynchronous message passing between services.</li>
+      <li><strong>Database Integration:</strong> Connected to PostgreSQL using GORM for persistent storage.</li>
+      <li><strong>Containerization:</strong> Used Docker Compose to orchestrate multi-service deployment.</li>
+      <li><strong>Error Handling:</strong> Implemented centralized error logging and handling strategies.</li>
+      <li><strong>Environment Configuration:</strong> Managed secrets and environment variables for secure deployments.</li>
+    </ol>
+
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Project Architecture</h2>
+    <ul class="mb-6 list-disc ml-6 text-gray-800">
+      <li>
+        <strong>Broadcaster Service:</strong> 
+        <ul class="list-disc ml-6">
+          <li>Exposes HTTP endpoints via Gin (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/broadcaster/main.go" target="_blank">broadcaster/main.go</a>).</li>
+          <li>Validates and publishes user data to Kafka (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/broadcaster/services/user_service.go" target="_blank">broadcaster/services/user_service.go</a>).</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Listener Service:</strong>
+        <ul class="list-disc ml-6">
+          <li>Consumes Kafka messages (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/listener/services/listener_service.go" target="_blank">listener/services/listener_service.go</a>).</li>
+          <li>Persists user data to PostgreSQL (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/listener/main.go" target="_blank">listener/main.go</a>).</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Shared Modules:</strong>
+        <ul class="list-disc ml-6">
+          <li>Common models (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/shared/models/user.go" target="_blank">shared/models/user.go</a>), constants (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/shared/consts/consts.go" target="_blank">shared/consts/consts.go</a>), and error handling (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/shared/shared_services/error_handling_service.go" target="_blank">shared/shared_services/error_handling_service.go</a>).</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Infrastructure:</strong>
+        <ul class="list-disc ml-6">
+          <li>Kafka and PostgreSQL managed via Docker Compose (<a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/docker-compose.yml" target="_blank">docker-compose.yml</a>).</li>
+        </ul>
+        <strong>Extensibility:</strong>
+        <ul class="list-disc ml-6">
+          <li>I would like this project to form the bones of a user tracking system for a self hosted website project. Alternatively I could use the backend concepts for my OCR / image hashing project, so I dont have to wait for tasks to complete before I send the next image to be catalogued. </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">How It Works</h2>
+    <ol class="list-decimal ml-6 mb-6 text-gray-800">
+      <li>User data is sent to the broadcaster via HTTP POST.</li>
+      <li>The broadcaster validates and publishes the data to a Kafka topic.</li>
+      <li>The listener consumes messages from Kafka and saves them to PostgreSQL.</li>
+      <li>All services are containerised and orchestrated with Docker Compose.</li>
+    </ol>
+
+    <h2 class="text-xl font-semibold mb-2 text-indigo-600">Explore the Code</h2>
+    <ul class="list-disc ml-6 text-gray-800">
+      <li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/broadcaster/main.go" target="_blank">Broadcaster Main</a></li>
+      <li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/listener/main.go" target="_blank">Listener Main</a></li>
+      <li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/shared/models/user.go" target="_blank">User Model</a></li>
+      <li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/go_project/docker-compose.yml" target="_blank">Docker Compose</a></li>
+    </ul>
+  </div>
+</body>
+</html>

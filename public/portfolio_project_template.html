@@ -1,0 +1,62 @@
+<!-- portfolio_project_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><!-- Project Title --></title>
+  <link rel="stylesheet" href="./portfolio-styles.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <script>
+    fetch('./components/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
+  <div class="h-8"></div>
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg card">
+    <h1 class="text-4xl font-bold mb-4 text-indigo-700">Project Name</h1>
+    <p class="mb-6 text-lg text-gray-700">
+      <!-- Brief project description: What is this project? What problem does it solve? What makes it unique? -->
+    </p>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Learning Outcomes</h2>
+    <ol class="list-decimal ml-6 mb-6 text-gray-800">
+      <!-- List 4-6 key skills, technologies, or concepts you learned or applied in this project. -->
+      <li><!-- Example: Used Python OOP for modular design --></li>
+      <li><!-- Example: Implemented RESTful APIs --></li>
+      <li><!-- Example: Built responsive UI with CSS Grid --></li>
+      <li><!-- Example: Automated data processing --></li>
+    </ol>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Project Architecture</h2>
+    <ul class="mb-6 list-disc ml-6 text-gray-800">
+      <!-- Describe the main components, structure, and technologies used. -->
+      <li>
+        <strong>Core Features:</strong>
+        <ul class="list-disc ml-6">
+          <li><!-- Example: Main script or entry point --></li>
+          <li><!-- Example: Key modules/classes --></li>
+        </ul>
+      </li>
+      <li>
+        <strong>Utilities & Data:</strong>
+        <ul class="list-disc ml-6">
+          <li><!-- Example: Utility scripts, data files, or database --></li>
+        </ul>
+      </li>
+      <li>
+        <strong>Extensibility:</strong>
+        <ul class="list-disc ml-6">
+          <li><!-- Example: How can this project be extended or improved? --></li>
+        </ul>
+      </li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2 text-indigo-600">Explore the Code</h2>
+    <ul class="list-disc ml-6 text-gray-800">
+      <li><a class="text-indigo-500 underline" href="<!-- GitHub repo or main file link -->" target="_blank">View on GitHub</a></li>
+    </ul>
+  </div>
+</body>
+</html>

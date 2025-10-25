@@ -12,3 +12,8 @@ notes-ignore.md
 .env
 */consts/*
 */secrets/*
+*/database/
+*/json_sets/
+.idea/*
+.vscode/*
+__pycache__

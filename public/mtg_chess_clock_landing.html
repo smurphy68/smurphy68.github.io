@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>MTG Chess Clock Landing Page</title>
+	<link rel="stylesheet" href="./portfolio-styles.css">
+</head>
+<body class="bg-gray-100 font-sans">
+	<div id="navbar"></div>
+		<script>
+			fetch('./components/navbar.html')
+				.then(response => response.text())
+				.then(data => {
+					document.getElementById('navbar').innerHTML = data;
+				});
+		</script>
+		<div class="h-8"></div>
+		<div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+		<h1 class="text-4xl font-bold mb-4 text-indigo-700">MTG Chess Clock</h1>
+		<p class="mb-6 text-lg text-gray-700">
+			A web-based multiplayer chess clock and life counter for Magic: The Gathering, designed for use in table top play with a phone or tablet.
+			This was an earlier project of mine, when I was still learning web development basics. It helped me understand responsive design, codifying game logic, and dynamic DOM manipulation.
+		</p>
+
+		<h2 class="text-2xl font-semibold mb-2 text-indigo-600">Learning Outcomes</h2>
+		<ol class="list-decimal ml-6 mb-6 text-gray-800">
+			<li><strong>Responsive Web Design:</strong> UI constructed using CSS Grid and media queries.</li>
+			<li><strong>JavaScript Game Logic:</strong> Implemented turn-based timing, life counters, and player state management in JS.</li>
+			<li><strong>Dynamic DOM Manipulation:</strong> Used jQuery and vanilla JS for interactive controls and real-time updates.</li>
+			<li><strong>Accessibility & Usability:</strong> Designed for touch devices, with double-tap prevention and large controls.</li>
+			<li><strong>Component Reuse:</strong> Structured code for easy extension to different player counts and game modes.</li>
+		</ol>
+
+		<h2 class="text-2xl font-semibold mb-2 text-indigo-600">Project Architecture</h2>
+		<ul class="mb-6 list-disc ml-6 text-gray-800">
+			<li>
+				<strong>Frontend:</strong>
+				<ul class="list-disc ml-6">
+					<li>Pure HTML, CSS, and JavaScript (with jQuery for convenience).</li>
+					<li>CSS Grid for layout, responsive design for mobile/desktop.</li>
+					<li>All logic runs client-side, no backend required.</li>
+				</ul>
+			</li>
+			<li>
+				<strong>Features:</strong>
+				<ul class="list-disc ml-6">
+					<li>Four-player chess clock with pass-turn and pause functionality.</li>
+					<li>Life counters for each player, with elimination on zero life.</li>
+					<li>Settings dialog for initial time and player count.</li>
+					<li>Flip controls for table orientation.</li>
+				</ul>
+			</li>
+			<li>
+				<strong>Extensibility:</strong>
+				<ul class="list-disc ml-6">
+					<li>Easy to modify for different games or player numbers.</li>
+				</ul>
+			</li>
+		</ul>
+
+		<h2 class="text-xl font-semibold mb-2 text-indigo-600">Explore the Code</h2>
+		<ul class="list-disc ml-6 text-gray-800">
+			<li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/mtg-chess-clock/mtg-chess-clock.html" target="_blank">MTG Chess Clock on GitHub</a></li>
+			<li><a class="text-indigo-500 underline" href="../mtg-chess-clock/mtg-chess-clock.html" target="_blank">Give it a go!</a></li>
+            
+		</ul>
+	</div>
+</body>
+</html>

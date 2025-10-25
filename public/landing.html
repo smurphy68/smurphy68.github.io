@@ -1,0 +1,45 @@
+<!-- landing.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Landing Page</title>
+  <link rel="stylesheet" href="./portfolio-styles.css">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div id="navbar"></div>
+  <script>
+    fetch('./components/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
+  <!-- Include warning banner -->
+  <!--#include file="components/warning-banner.html" -->
+  <div class="h-8"></div>
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+    <h1 class="text-4xl font-bold mb-4 text-indigo-700">Welcome to My GitHub Portfolio</h1>
+    <p class="mb-6 text-lg text-gray-700">
+      Explore a collection of my software projects, each demonstrating different technologies, architectures, and learning outcomes. Use the navigation menu above to browse individual project pages.
+    </p>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Featured Projects</h2>
+    <ul class="list-disc ml-6 mb-6 text-gray-800">
+      <li>
+  <strong>Go Project:</strong> Distributed microservices with Kafka and PostgreSQL. <a class="text-indigo-500 underline" href="./go_project_landing.html">Learn more</a>
+      </li>
+      <li>
+  <strong>Python Project:</strong> Data analysis and automation tools. <a class="text-indigo-500 underline" href="./python_project_landing.html">Learn more</a>
+      </li>
+      <li>
+  <strong>React Project:</strong> Modern web UI development. <a class="text-indigo-500 underline" href="./react_project_landing.html">Learn more</a>
+      </li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2 text-indigo-600">About This Portfolio</h2>
+    <p class="mb-4 text-gray-700">
+      This site is built to showcase my growth as a developer, highlight technical skills, and provide insight into my approach to software engineering. Each project page details the architecture, technologies used, and key learning outcomes.
+    </p>
+  </div>
+</body>
+</html>

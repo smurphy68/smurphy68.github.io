@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WallCode Landing Page</title>
+  <link rel="stylesheet" href="./portfolio-styles.css">
+</head>
+<body class="bg-gray-100 font-sans">
+  <div id="navbar"></div>
+    <script>
+        fetch('./components/navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+        });
+    </script>
+  <div class="h-8"></div>
+
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+    <h1 class="text-4xl font-bold mb-4 text-indigo-700">WallCode</h1>
+    <p class="mb-6 text-lg text-gray-700">
+      WallCode was my very first coding project and the place where I truly developed my love for programming. I built a home climbing wall and installed addressable LEDs that could be controlled using a custom web interface. Users could select climbing routes online, and the chosen holds would light up on the wall via microcontrollers, making training interactive and fun.
+      <br><br>It was crude, and I've never updated it to show how much I've learned since then, but it remains a special project to me.
+    </p>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Learning Outcomes</h2>
+    <ol class="list-decimal ml-6 mb-6 text-gray-800">
+      <li><strong>Full Stack Integration:</strong> Combined Python, JavaScript, and HTML for web and hardware interfaces.</li>
+      <li><strong>Microcontroller Programming:</strong> Developed scripts for Raspberry Pi Pico to interact with web services.</li>
+      <li><strong>RESTful APIs:</strong> Built and consumed APIs for data transfer between devices and web UI.</li>
+      <li><strong>Frontend UI:</strong> Created interactive forms and record displays using HTML, CSS, and JS.</li>
+      <li><strong>Modular Design:</strong> Organized code into reusable components for maintainability.</li>
+    </ol>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Project Architecture</h2>
+    <ul class="mb-6 list-disc ml-6 text-gray-800">
+      <li>
+        <strong>Web Frontend:</strong>
+        <ul class="list-disc ml-6">
+          <li>HTML pages for homepage, record, forge, and update forms.</li>
+          <li>JavaScript modules for button functions and record management.</li>
+          <li>CSS for responsive and clean UI.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Microcontroller:</strong>
+        <ul class="list-disc ml-6">
+          <li>Python scripts for WiFi code display and data sync.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Extensibility:</strong>
+        <ul class="list-disc ml-6">
+          <li>Easy to add new forms, records, or device integrations.</li>
+        </ul>
+      </li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2 text-indigo-600">Explore the Code</h2>
+    <ul class="list-disc ml-6 text-gray-800">
+      <li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/tree/main/wallCode" target="_blank">WallCode on GitHub</a></li>
+    </ul>
+  </div>
+  <div class="h-8"></div>
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+    <img src="./images/0109ed41-e6c7-49f3-b83a-fedae8710df7.jfif" 
+      alt="Installing all of the LEDs onto the wall" 
+      class="rounded-lg shadow-md" 
+      style="max-width: 100%; height: auto; margin-top:15px; margin-bottom:-25px">
+  </div>
+  <div class="h-8"></div>
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+    <img src="./images/307b7532-4a0e-4447-9121-bb15a073e704.jfif" 
+      alt="Any excuse to show off my dog tbh" 
+      class="rounded-lg shadow-md" 
+      style="max-width: 100%; height: auto; margin-top:15px; margin-bottom:-25px">
+  </div>
+  <div class="h-8"></div>
+    <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg">
+    <img src="./images/e96f569b-6cb9-402c-9d6b-72fb0e89c817.jfif" 
+      alt="Attempted Edge Detection for importing holds onto a web interface" 
+      class="rounded-lg shadow-md" 
+      style="max-width: 100%; height: auto; margin-top:15px; margin-bottom:-25px">
+  </div>
+  <div class="h-8"></div>
+</body>
+</html>
