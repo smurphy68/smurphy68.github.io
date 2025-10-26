@@ -1,3 +1,18 @@
+/* === Image Grid === */
+.project-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: flex-start;
+}
+.project-images img {
+  max-width: 33%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  object-fit: cover;
+}
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
 
 body, html, #navbar nav, .card, .max-w-3xl, .font-bold, .font-semibold, .text-lg, .text-4xl, .text-2xl, .text-xl, .text-sm {
@@ -109,12 +124,12 @@ a:hover {
 }
 
 .h-8 { height: 2rem; }
-.max-w-3xl { max-width: 48rem; }
+.max-w-3xl { max-width: 60%; }
 .mx-auto { margin-left: auto; margin-right: auto; }
 .py-12 { padding-top: .3rem; padding-bottom: 3rem; }
 .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-6 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 1rem; max-width: 75%; }
+.mb-6 { margin-bottom: 1.5rem; max-width: 75%; }
 .mb-2 { margin-bottom: 0.5rem; }
 .ml-6 { margin-left: 1.5rem; }
 .underline { text-decoration: underline; }
