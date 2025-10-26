@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open AI Home Assistant</title>
+  <link rel="stylesheet" href="./portfolio-styles.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <script>
+    fetch('./components/navbar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+  </script>
+  <div class="h-8"></div>
+  <div class="max-w-3xl mx-auto py-12 px-6 bg-white shadow-lg rounded-lg card">
+    <h1 class="text-4xl font-bold mb-4 text-indigo-700">Open AI Home Assistant</h1>
+    <p class="mb-6 text-lg text-gray-700">
+      In the last few years AI advancements have exploded, with models like GPT-4 (now 5) transforming how we interact with technology. 
+      This project was to learn how to leverage and integrate OpenAI's powerful models into a Home Assistant setup, enabling voice-activated control and dynamic content creation for smart home environments.
+      My short term goal with this project was to learn more about API integration, integration of publically available services, and to have fun! 
+      The long term goal is to  with user driven routine creation through voice commands.
+      I had originally wanted to use this as a voice assistant in my campervan - the use case I sold to my partner was being able to turn the van heating on remotely from the top of a mountain, and returning to a nice toasty van!
+    </p>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Learning Outcomes</h2>
+    <ol class="list-decimal ml-6 mb-6 text-gray-800">
+      <li>Integration with OpenAI GPTs for completions and generating responses</li>
+      <li>Basic TTS, routines and wake work recogntion</li>
+      <li>Learned about Flask authentification and developed basic auth priciples</li>
+      <li>Explored features available to OpenAI Assistants</li>
+      <li>Basic function calling from AI Assistants</li>
+    </ol>
+    <h2 class="text-2xl font-semibold mb-2 text-indigo-600">Project Architecture</h2>
+    <ul class="mb-6 list-disc ml-6 text-gray-800">
+      <li>
+        <strong>Core Features:</strong>
+        <ul class="list-disc ml-6">
+          <li><code>friday.py</code> is the main entry point for this project. It checks the routines folder and updates the functions available to call; then listens for the wake command "Hey Friday"</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Extensibility:</strong>
+        <ul class="list-disc ml-6">
+          <li>This project was very eye-opening to undertake - since I put it down, I know that there have been many more developer-centric enhancements that should be revisited.
+            Next steps for this project are to integrate more deeply with OpenAI agents, and to explore function calling with GPT models to enable more dynamic and context-aware interactions.</li>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2 text-indigo-600">Explore the Code</h2>
+    <ul class="list-disc ml-6 text-gray-800">
+      <li><a class="text-indigo-500 underline" href="https://github.com/smurphy68/smurphy68.github.io/blob/main/friday-ai/friday.py" target="_blank">View on GitHub</a></li>
+    </ul>
+  </div>
+</body>
+</html>
